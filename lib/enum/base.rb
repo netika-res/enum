@@ -10,11 +10,11 @@ module Enum
       end
 
       def values(*ary)
-        ary.each { |val| add_value(val.to_s) }
+        add_value(ary.first) if ary.first
       end
 
       def all
-        history
+        history.to_a
       end
 
       def indexes
@@ -22,7 +22,7 @@ module Enum
       end
 
       def include?(token)
-        store.include?(token.to_s)
+        history.include?(token.to_sym)
       end
 
       def enums(*tokens)
@@ -30,40 +30,47 @@ module Enum
       end
 
       def enum(t)
-        ts = t.to_s
-        unless store.include?(ts)
-          raise(TokenNotFoundError, "token '#{t}'' not found in the enum #{self}")
-        end
-        ts
+        ts = t.to_sym
+        store[index(t)]
       end
 
-      def name(t)
+      def exists(token)
+        unless history.include?(token.to_sym)
+          raise(TokenNotFoundError, "token '#{token}'' not found in #{self}")
+        end
+      end
+
+=begin        def name(t)
         translate(enum(t))
       end
-
+=end
       def index(token)
-        history.index(enum(token))
+        exists(token)
+        store.index do |h|
+          key, value = h.first
+          key == token.to_sym
+        end
       end
 
       protected
 
       def store
-        @store ||= Set.new
+        @store ||= Array.new
       end
 
-      def store=(set)
-        @store = set
+      def store=(ary)
+        @store = ary
       end
 
       def history
-        @history ||= Array.new
+        @history ||= Set.new
       end
 
-      def history=(ary)
-        @history = ary
+      def history=(set)
+        @history = set
       end
 
-      def translate(token, options = {})
+=begin        def translate(token, options = {})
         I18n.t(token, scope: "enum.#{self}", exception_handler: proc do
           if superclass == Enum::Base
             I18n.t(token, options.merge(scope: "enum.#{self}"))
@@ -74,12 +81,16 @@ module Enum
           end
         end)
       end
-
+=end
       private
 
       def add_value(val)
-        store.add(val)
-        history.push(val)
+        raise(InitNotHashError, "'#{val}' is not a hash and cannot be processed") unless val.is_a? Hash
+        val.each do |newKey, newValue|
+          raise(KeyInUseError, "'#{key}' is already a key existing in enum") if history.include?(newKey.to_sym)
+          store.push(Hash[newKey, newValue])
+          history.add(newKey)
+        end
       end
 
       def init_child_class(child)
