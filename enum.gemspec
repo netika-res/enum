@@ -4,14 +4,14 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'enum/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "safe-enum"
+  spec.name          = "safe-hash-enum"
   spec.version       = Enum::VERSION
-  spec.authors       = ["Andrey Koleshko"]
-  spec.email         = ["ka8725@gmail.com"]
+  spec.authors       = ["NETIKA real estate solution s.a."]
+  spec.email         = ["pierre.streel@netika.com"]
 
   spec.summary       = %q{Enum implementation}
-  spec.description   = %q{This is a very basic implementation of enums in Ruby. The cornerstone of the library is safety.}
-  spec.homepage      = "https://github.com/mezuka/enum"
+  spec.description   = %q{This is a implementation of enums in Ruby.}
+  spec.homepage      = "https://github.com/netika-res/enum"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
