@@ -36,11 +36,23 @@ module Enum
 
       def exists(token)
         unless history.include?(token.to_sym)
-          raise(TokenNotFoundError, "token '#{token}'' not found in #{self}")
+          raise(TokenNotFoundError, "Token '#{token}' not found in #{self}")
         end
       end
 
-=begin        def name(t)
+      def find_value(v)
+        key = nil
+        store.each do |e|
+          key = e.keys[0] if e.values[0] == v
+        end
+        unless key
+          raise(TokenNotFoundError, "Token for value '#{v}' not found in #{self}")
+        end
+        enum(key)
+      end
+
+=begin
+      def name(t)
         translate(enum(t))
       end
 =end
