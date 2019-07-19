@@ -1,6 +1,6 @@
 # Enum
 
-This is a very basic implementation of enums in Ruby. Forked from [mezuka/enum](https://github.com/mezuka/enum). The cornerstone of the mezuka library is **safety**. This implementation uses hashes instead of strings to create enums. It is a work in progress and evolves depending on developers needs.
+This is a very basic implementation of enums in Ruby. Forked from [mezuka/enum](https://github.com/mezuka/enum). The cornerstone of the mezuka library is **safety**. This implementation uses **hashes** instead of strings to create enums. It is a work in progress and evolves depending on developers needs.
 
 ## Installation
 
@@ -27,13 +27,22 @@ class Side < Enum::Base
 end
 ```
 
-Now get a safely defined value with the `enum` method with its `Symbol` or `String` type as argument. If there is no defined such value `Enum::TokenNotFoundError` exception will be raised. And this is the **safety** - you will be noticed about the problem and fix it by introducing a new value or fixing a source of the invalid value. While others implementations of enums in Ruby (that I know) just silently ignore invalid values returning `nil` this one will raise the exception **always**. Example of usage:
+Now get a safely defined hash with the `enum` method with its `Symbol` or `String` type as argument. If there is no defined such hash `Enum::TokenNotFoundError` exception will be raised. And this is the **safety** - you will be noticed about the problem and fix it by introducing a new hash or fixing the source of the invalid hash. While others implementations of enums in Ruby (that I know) just silently ignore invalid values returning `nil` this one will raise the exception **always**. Example of usage:
 
 ```ruby
 Side.enum(:left) # => {:left => "my_left"}
 Side.enum('left') # => {:left => "my_left"}
-Side.enum(:invalid) # => Enum::TokenNotFoundError: token 'invalid'' not found in the enum Side
-Side.enum('invalid') # => Enum::TokenNotFoundError: token 'invalid'' not found in the enum Side
+Side.enum(:invalid) # => Enum::TokenNotFoundError: token 'invalid'' not found in Side
+Side.enum('invalid') # => Enum::TokenNotFoundError: token 'invalid'' not found in Side
+```
+
+Get value of hash by token (String or Symbol):
+
+```ruby
+Side.value(:left) # => "my_left"
+Side.value('left') # => "my_left"
+Side.value(:invalid) # => Enum::TokenNotFoundError: token 'invalid'' not found in Side
+Side.value('invalid') # => Enum::TokenNotFoundError: token 'invalid'' not found in Side
 ```
 
 Get all defined enum values with the `all` method:
