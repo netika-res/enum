@@ -33,11 +33,11 @@ describe Enum::Base do
 
     describe '#enum' do
       it 'returns defined token as hash by symbol' do
-        assert_equal {:left=>"my_left"}, Side.enum(:left)
+        assert_equal({:left=>"my_left"}, Side.enum(:left))
       end
 
       it 'returns defined token as hash by string' do
-        assert_equal {:left=>"my_left"}, Side.enum('left')
+        assert_equal({:left=>"my_left"}, Side.enum('left'))
       end
 
       it 'raises exception on getting not defined token on getting token by string' do
@@ -88,9 +88,9 @@ describe Enum::Base do
 
     describe '#enum' do
       describe "has parent's tokens and itselves" do
-        specify { assert_equal {:left=>"my_left"}, NewSide.enum(:left) }
-        specify { assert_equal {:right=>"my_right"}, NewSide.enum(:right) }
-        specify { assert_equal {:center=>"my_center"}, NewSide.enum(:center) }
+        specify { assert_equal({:left=>"my_left"}, NewSide.enum(:left)) }
+        specify { assert_equal({:right=>"my_right"}, NewSide.enum(:right)) }
+        specify { assert_equal({:center=>"my_center"}, NewSide.enum(:center)) }
         specify do
           assert_raises Enum::TokenNotFoundError do
             NewSide.enum(:invalid)
