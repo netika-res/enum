@@ -1,14 +1,13 @@
-![Travis](https://travis-ci.org/mezuka/enum.svg)
 # Enum
 
-This is a very basic implementation of enums in Ruby. The cornerstone of the library is **safety**.
+This is a very basic implementation of enums in Ruby. Forked from [mezuka/enum](https://github.com/mezuka/enum). The cornerstone of the mezuka library is **safety**. This implementation uses hashes instead of strings to create enums. It is a work in progress and evolves depending on developers needs.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'safe-enum'
+gem 'safe-hash-enum'
 ```
 
 And then execute:
@@ -17,22 +16,22 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install safe-enum
+    $ gem install safe-hash-enum
 
 ## Usage
 
 Define set of enums with code like this:
 ```ruby
 class Side < Enum::Base
-  values :left, :right
+  values({left: 'left', right: 'right'})
 end
 ```
 
-Now get a value with the `enum` method safely defined values by argument with its `Symbol` or `String` type. If there is no defined such value `Enum::TokenNotFoundError` exception will be raised. And this is the **safety** - you will be noticed about the problem and fix it by introducing a new value or fixing a source of the invalid value. While others implementations of enums in Ruby (that I know) just silently ignore invalid values returning `nil` this one will raise the exception **always**. Example of usage:
+Now get a safely defined value with the `enum` method with its `Symbol` or `String` type as argument. If there is no defined such value `Enum::TokenNotFoundError` exception will be raised. And this is the **safety** - you will be noticed about the problem and fix it by introducing a new value or fixing a source of the invalid value. While others implementations of enums in Ruby (that I know) just silently ignore invalid values returning `nil` this one will raise the exception **always**. Example of usage:
 
 ```ruby
-Side.enum(:left) # => "left"
-Side.enum('left') # => "left"
+Side.enum(:left) # => {:left => "left"}
+Side.enum('left') # => {:left => "left"}
 Side.enum(:invalid) # => Enum::TokenNotFoundError: token 'invalid'' not found in the enum Side
 Side.enum('invalid') # => Enum::TokenNotFoundError: token 'invalid'' not found in the enum Side
 ```
@@ -40,7 +39,7 @@ Side.enum('invalid') # => Enum::TokenNotFoundError: token 'invalid'' not found i
 Get all defined enum values with the `all` method:
 
 ```ruby
-Side.all # => ['left', 'rigth', 'whole']
+Side.all # => [:left, :right]
 ```
 
 > Order or the returned values in the same as their definition. It's guaranteed.
@@ -48,31 +47,10 @@ Side.all # => ['left', 'rigth', 'whole']
 In order to get array of defined enums safely use `enums` method:
 
 ```ruby
- Side.enums(:left, :right) # => ['left', 'right']
+ Side.enums(:left, :right) # => [{:left => "left"}, {:right => "right"}]
 ```
-
-If you have installed `I18n` in your application feel free to use `name` method to retreive the values' translations. For the given example the possible translation structure in `yml` format is the following:
-
-```yml
-en:
-  enum:
-    Side:
-      left: 'Left'
-      right: 'Right'
-```
-
-The `name` method usage example:
-
-```ruby
-Side.name(:left) # => "Left"
-Side.name('left') # => "Left"
-Side.name(:right) # => "Right"
-Side.name('right') # => "Right"
-Side.name(:invalid) # => Enum::TokenNotFoundError: token 'invalid'' not found in the enum Side
-```
-
-> If you don't have installed `I18n` in your project `NameError` exception will be raised on the `name` method call.
-
+---
+## TO ADAPT FROM MEZUKA, NOT YET IMPLEMENTED
 Consider the case when we have an object with a field with only enum values. Extend the class of this object by `Enum::Predicates` and use `enumerize` method to generate predicates. This is a more convenient way matching current value of the field with an enum value. Usage the predicate methods is **safe** also. It means that you can't pass to the method invalid enum value neither can have an invalid value in the field:
 
 ```ruby
@@ -113,7 +91,7 @@ WeekDay.index(:sunday) == Date.new(2015, 9, 13).wday # => true
 WeekDay.index(:monday) # => 1
 WeekDay.indexes # => [0, 1, 2, 3, 4, 5, 6]
 ```
-
+---
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
