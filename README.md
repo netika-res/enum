@@ -49,6 +49,11 @@ In order to get array of defined enums safely use `enums` method:
 ```ruby
  Side.enums(:left, :right) # => [{:left => "left"}, {:right => "right"}]
 ```
+
+## License
+
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
 ---
 ## TO ADAPT FROM MEZUKA, NOT YET IMPLEMENTED
 Consider the case when we have an object with a field with only enum values. Extend the class of this object by `Enum::Predicates` and use `enumerize` method to generate predicates. This is a more convenient way matching current value of the field with an enum value. Usage the predicate methods is **safe** also. It means that you can't pass to the method invalid enum value neither can have an invalid value in the field:
@@ -91,19 +96,6 @@ WeekDay.index(:sunday) == Date.new(2015, 9, 13).wday # => true
 WeekDay.index(:monday) # => 1
 WeekDay.indexes # => [0, 1, 2, 3, 4, 5, 6]
 ```
+
+### TODO UPDATE TESTS
 ---
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/mezuka/enum. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
-
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
