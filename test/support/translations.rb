@@ -1,3 +1,4 @@
+=begin
 require 'i18n'
 
 I18n.enforce_available_locales = false
@@ -15,3 +16,4 @@ I18n.backend.store_translations(I18n.locale, {
     }
   }
 })
+=end

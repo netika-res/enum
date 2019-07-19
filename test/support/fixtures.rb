@@ -1,12 +1,12 @@
 class Side < Enum::Base
-  values :left, :right, :whole
+  values({:left => 'my_left', :right => 'my_right'})
 end
 
 class NewSide < Side
-  values :center
+  values({center: 'my_center'})
 end
 
-
+=begin
 class Table
   extend Enum::Predicates
 
@@ -14,12 +14,12 @@ class Table
 
   enumerize :side, Side
 end
-
+=end
 
 module Room
   class Side < Enum::Base
-    values :left, :right
+  	values({:left => 'my_left', :right => 'my_right'})
   end
 
-  COLORS = Enum[:yellow, :orange, :blue]
+  COLORS = Enum[{:yellow=>'jaune', :orange => 'oranje', :blue => 'bleu'}]
 end
