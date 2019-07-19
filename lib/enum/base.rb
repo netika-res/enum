@@ -40,6 +40,11 @@ module Enum
         end
       end
 
+      def value(t)
+        e = enum(t)
+        e[t]
+      end
+
       def find_value(v)
         key = nil
         store.each do |e|
