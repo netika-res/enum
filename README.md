@@ -27,13 +27,20 @@ class Side < Enum::Base
 end
 ```
 
-Now get a safely defined hash with the `enum` method with its `Symbol` or `String` type as argument. If there is no defined such hash `Enum::TokenNotFoundError` exception will be raised. And this is the **safety** - you will be noticed about the problem and fix it by introducing a new hash or fixing the source of the invalid hash. While others implementations of enums in Ruby (that I know) just silently ignore invalid values returning `nil` this one will raise the exception **always**. Example of usage:
+Now get a safely defined key with the `enum` method with its `Symbol` or `String` type as argument. If there is no such key,  `Enum::TokenNotFoundError` exception will be raised. And this is the **safety** - you will be noticed about the problem and fix it by introducing a new hash or fixing the source of the invalid hash. While others implementations of enums in Ruby (that I know) just silently ignore invalid values returning `nil` this one will raise the exception **always**. Example of usage:
 
 ```ruby
-Side.enum(:left) # => {:left => "my_left"}
-Side.enum('left') # => {:left => "my_left"}
+Side.enum(:left) # => :left
+Side.enum('left') # => :left
 Side.enum(:invalid) # => Enum::TokenNotFoundError: token 'invalid'' not found in Side
 Side.enum('invalid') # => Enum::TokenNotFoundError: token 'invalid'' not found in Side
+```
+
+To get the real enum, the hash representing the enum, use `real_enum` method :
+
+```ruby
+ Side.real_enum(:left) # => {:left => "my_left"}
+ Side.real_enum('left') # => {:left => "my_left"}
 ```
 
 Get value of hash by token (String or Symbol):
