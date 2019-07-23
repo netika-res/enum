@@ -30,6 +30,11 @@ module Enum
       end
 
       def enum(t)
+        exists(t.to_sym)
+        t.to_sym
+      end
+
+      def real_enum(t)
         ts = t.to_sym
         store[index(t)]
       end
