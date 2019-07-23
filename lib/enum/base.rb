@@ -46,7 +46,7 @@ module Enum
       end
 
       def value(t)
-        e = enum(t)
+        e = real_enum(t)
         e[t]
       end
 
